@@ -5,7 +5,7 @@ import javax.microedition.io.Connection;
 import lejos.nxt.LCD;
 import lejos.nxt.comm.NXTConnection;
 
-public abstract class Bluetooth
+public abstract class Bluethoot_conector
 {
 	private static final String connected = "Connected";
 	private static final String waiting = "Waiting...";
@@ -13,22 +13,22 @@ public abstract class Bluetooth
 	
 	private NXTConnection connection;
 	
-	private BT_Envia bt_env;
-	private BT_Recibe bt_rec;
+	private Bluethoot_envia bt_env;
+	private Bluethoot_recibe bt_rec;
 	
-	public Bluetooth() 
+	public Bluethoot_conector() 
 	{
 		LCD.drawString(waiting,0,0);
 		connection = lejos.nxt.comm.Bluetooth.waitForConnection();
 	    LCD.clear();
 	    LCD.drawString(connected,0,0);
 	    
-	    bt_env = new BT_Envia( connection.openDataOutputStream() );
-	    bt_rec = new BT_Recibe( connection.openDataInputStream() )
+	    bt_env = new Bluethoot_envia( connection.openDataOutputStream() );
+	    bt_rec = new Bluethoot_recibe( connection.openDataInputStream() )
 	    {	
 			@Override
 			public void analizadorDeSMS(String sms)
-			{
+			{				
 				if(sms.compareTo( EncabezadosMensajesNXT.Cerrar ) == 0)
 					cerrarConexion();
 				else
@@ -43,7 +43,8 @@ public abstract class Bluetooth
 		LCD.drawString(closing,0,0);
 		 
 		bt_env.close();
-		bt_rec.close();		 
+		bt_rec.close();	
+		connection.close();
 	}
 	
 	public abstract void analizadorDeSMS_BT(String sms);

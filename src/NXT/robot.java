@@ -1,14 +1,14 @@
 package NXT;
 
-import NXT.conexion.Bluetooth;
+import NXT.conexion.Bluethoot_conector;
 
 public class robot
 {
-	private Bluetooth conect_bl;
+	private Bluethoot_conector conect_bl;
 	
 	public robot()
 	{
-		conect_bl = new Bluetooth() 
+		conect_bl = new Bluethoot_conector() 
 		{
 			@Override
 			public void analizadorDeSMS_BT(String sms)
