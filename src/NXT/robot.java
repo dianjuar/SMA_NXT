@@ -22,10 +22,6 @@ public class robot {
 
 	public robot() {
 		
-		cin = new Cinetica();
-		sonic = new Sonic();
-		ligth = new Ligth();
-		
 		LCD_posPrint = 0;
 		robotID = -1;
 
@@ -47,6 +43,10 @@ public class robot {
 				}
 			}
 		};
+		
+		sonic = new Sonic();
+		ligth = new Ligth();
+		cin = new Cinetica();
 	}
 
 	private void calibrarSensorL() {
@@ -76,7 +76,7 @@ public class robot {
 			Tools.LCD.drawString( ""+sonic.getDistancia() );
 			while( sonic.getDistancia() <= distancia_girarSinColisionar )
 			{
-				Tools.LCD.drawString( ""+sonic.getDistancia() );
+				Tools.LCD.drawString( "Avanzando dist:"+sonic.getDistancia(),7 );
 			}
 			
 			cin.stop();
