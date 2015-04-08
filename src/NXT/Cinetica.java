@@ -7,8 +7,8 @@ public class Cinetica
 {
 	public Cinetica()
 	{
-		Motor.A.setSpeed(25);
-		Motor.B.setSpeed(25);
+		Motor.A.setSpeed(50);
+		Motor.B.setSpeed(50);
 	}
 	
 	public static void foward()

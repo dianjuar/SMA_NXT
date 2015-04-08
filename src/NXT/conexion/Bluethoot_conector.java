@@ -62,6 +62,12 @@ public abstract class Bluethoot_conector
 		}
 	}
 	
+	public void enviar_faseCalibTerminada(int RobotID, int faseCalib)
+	{
+		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico+Encabezado_MensajesNXT.Separador+
+				Encabezado_MensajesNXT.Separador2 + faseCalib);
+	}
+	
 	public abstract void analizadorDeSMS_BT(String sms);
 
 	

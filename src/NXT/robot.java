@@ -74,17 +74,17 @@ public class robot {
 			
 			
 			Tools.LCD.drawString( ""+sonic.getDistancia() );
-			while( sonic.getDistancia() <= distancia_girarSinColisionar )
+			while( sonic.getDistancia() >= distancia_girarSinColisionar )
 			{
-				Tools.LCD.drawString( "Avanzando dist:"+sonic.getDistancia(),7 );
+				Tools.LCD.drawString( "Avan dist:"+sonic.getDistancia(),6 );
 			}
 			
 			cin.stop();
 			
-			ligth.calibrarBajo();
+			ligth.calibrarAlto();
+			Tools.LCD.drawString("Alto calibrado");
 			
-			
-			Tools.LCD.drawString("bajo calibrado");
+			conect_bl.
 			
 			break;
 		case 3:
