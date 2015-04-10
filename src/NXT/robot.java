@@ -84,7 +84,7 @@ public class robot {
 			ligth.calibrarAlto();
 			Tools.LCD.drawString("Alto calibrado");
 			
-			conect_bl.
+			conect_bl.enviar_faseCalibTerminada( ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
 			
 			break;
 		case 3:

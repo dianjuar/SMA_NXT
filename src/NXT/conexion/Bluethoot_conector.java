@@ -45,7 +45,6 @@ public abstract class Bluethoot_conector
 	
 	public void cerrarConexion( boolean ImClosing )
 	{
-		
 		if( isConnected )
 		{
 			if(ImClosing)
@@ -62,10 +61,10 @@ public abstract class Bluethoot_conector
 		}
 	}
 	
-	public void enviar_faseCalibTerminada(int RobotID, int faseCalib)
+	public void enviar_faseCalibTerminada(boolean alto, boolean bajo)
 	{
-		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico+Encabezado_MensajesNXT.Separador+
-				Encabezado_MensajesNXT.Separador2 + faseCalib);
+		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico + Encabezado_MensajesNXT.Separador+
+			  Encabezado_MensajesNXT.Separador2 +(alto?1:0) + (bajo?1:0));
 	}
 	
 	public abstract void analizadorDeSMS_BT(String sms);
