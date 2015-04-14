@@ -1,5 +1,6 @@
 package NXT;
 
+import lejos.addon.gps.SimpleGPS;
 import lejos.nxt.LightSensor;
 import NXT.Sensors.Ligth;
 import NXT.Sensors.Sonic;
@@ -7,7 +8,8 @@ import NXT.conexion.Bluethoot_conector;
 import NXT.conexion.Encabezado_MensajesNXT;
 import Tools.LCD;
 
-public class robot {
+public class robot 
+{
 	private Bluethoot_conector conect_bl;
 	private int robotID;
 
@@ -38,7 +40,8 @@ public class robot {
 					robotID = Integer.valueOf(cuerpo);
 					Tools.LCD.drawString("ID : " + robotID);
 				} else if (encabezado
-						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico)) {
+						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico))
+				{
 					calibrarSensorL();
 				}
 			}
@@ -49,20 +52,58 @@ public class robot {
 		cin = new Cinetica();
 	}
 
-	private void calibrarSensorL() {
+	private void calibrarSensorL()
+	{
 		switch (sensorL_calibrate_f) {
 		case 0:
 			calibrarSensorL_F0();
 			break;
 		case 1:
-
+			calibrarSensorL_F1();
 			break;
 		case 2:
-
+			calibrarSensorL_F2();
 			break;
 		}
 
 		sensorL_calibrate_f++;
+		System.out.println(sensorL_calibrate_f);
+	}
+	
+	private void calibrarSensorL_F2()
+	{
+		cin.acercar(sonic, distancia_girarSinColisionar);
+		
+		ligth.calibrarBajo();
+		Tools.LCD.drawString("Bajo calibrado");
+		conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+	}
+	
+	private void calibrarSensorL_F1()
+	{
+		switch (robotID) {
+		case 1:
+		case 2:
+			break;
+		case 3:
+				cin.girar(90);
+				
+				if( sonic.getDistancia() <= distancia_girarSinColisionar )
+				{
+					cin.alejar(sonic, distancia_girarSinColisionar);
+				}
+				else
+				{
+					cin.acercar(sonic, distancia_girarSinColisionar);
+				}
+				
+				ligth.calibrarAlto();
+				Tools.LCD.drawString("Alto calibrado");
+				cin.girar(-90);
+			
+				conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );				
+			break;
+		}
 	}
 
 	private void calibrarSensorL_F0() {
@@ -70,21 +111,15 @@ public class robot {
 		switch (robotID) {
 		case 1:
 		case 2:
-			cin.foward();
-			
-			
-			Tools.LCD.drawString( ""+sonic.getDistancia() );
-			while( sonic.getDistancia() >= distancia_girarSinColisionar )
-			{
-				Tools.LCD.drawString( "Avan dist:"+sonic.getDistancia(),6 );
-			}
-			
-			cin.stop();
+			cin.acercar(sonic, distancia_girarSinColisionar);
 			
 			ligth.calibrarAlto();
 			Tools.LCD.drawString("Alto calibrado");
 			
-			conect_bl.enviar_faseCalibTerminada( ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+			cin.girar(90);
+			
+			conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+			
 			
 			break;
 		case 3:
