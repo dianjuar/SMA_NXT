@@ -61,7 +61,7 @@ public abstract class Bluethoot_conector
 		}
 	}
 	
-	public void enviar_faseCalibTerminada(int robotID, boolean alto, boolean bajo)
+	public void enviar_faseCalibTerminada( boolean alto, boolean bajo)
 	{
 		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico + Encabezado_MensajesNXT.Separador+
 			  (alto?1:0) + (bajo?1:0));

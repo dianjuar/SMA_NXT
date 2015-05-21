@@ -1,17 +1,25 @@
 package NXT;
 
-import lejos.addon.gps.SimpleGPS;
-import lejos.nxt.LightSensor;
+import lejos.nxt.Sound;
 import NXT.Sensors.Ligth;
 import NXT.Sensors.Sonic;
 import NXT.conexion.Bluethoot_conector;
 import NXT.conexion.Encabezado_MensajesNXT;
-import Tools.LCD;
 
 public class robot 
 {
+    public static final int norte=0;
+    public static final int noreste=1;
+    public static final int este=2;
+    public static final int sureste=3;   
+    public static final int sur=4;
+    public static final int suroeste=5;
+    public static final int oeste=6;
+    public static final int noroeste=7;
+	
 	private Bluethoot_conector conect_bl;
 	private int robotID;
+	private int mirada;
 
 	private int sensorL_calibrate_f;
 
@@ -22,8 +30,9 @@ public class robot
 	private Sonic sonic;
 	private Ligth ligth;
 
-	public robot() {
-		
+	public robot() 
+	{
+		mirada = 0;
 		LCD_posPrint = 0;
 		robotID = -1;
 
@@ -34,15 +43,25 @@ public class robot
 			public void analizadorDeSMS_BT(String sms) {
 				String encabezado = sms.substring(0, 3);
 				String cuerpo = sms.substring(3);
-
 				
-				if (encabezado.equalsIgnoreCase(Encabezado_MensajesNXT.RobotID)) {
+				if (encabezado.
+						equalsIgnoreCase(Encabezado_MensajesNXT.RobotID)) 
+				{
 					robotID = Integer.valueOf(cuerpo);
 					Tools.LCD.drawString("ID : " + robotID);
-				} else if (encabezado
+				} 
+				else if (encabezado
 						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico))
 				{
 					calibrarSensorL();
+				}
+				else if(encabezado.
+						equalsIgnoreCase(Encabezado_MensajesNXT.Movimiento) )
+				{
+					int mirada = Integer.valueOf( cuerpo.substring(0,1) );
+					float distancia = Integer.valueOf( cuerpo.substring(1) );
+					
+					avanzar(mirada, distancia);
 				}
 			}
 		};
@@ -50,6 +69,44 @@ public class robot
 		sonic = new Sonic();
 		ligth = new Ligth();
 		cin = new Cinetica();
+	}
+	
+	private void avanzar( int mirada, float distancia )
+	{
+		
+	}
+	
+	private void girar(int miradaNueva)
+	{
+		if( mirada >= este && mirada <= suroeste)
+		{
+			
+		}
+		else
+			switch ( mirada)
+			{
+				case noreste:
+					
+					if( miradaNueva == oeste || miradaNueva == noreste )
+					{
+						
+					}
+					else
+					{
+						
+					}
+					
+				break;
+					
+				case norte:
+				break;
+					
+				case noroeste:
+				break;
+					
+				case oeste:
+				break;
+			}
 	}
 
 	private void calibrarSensorL()
@@ -67,16 +124,28 @@ public class robot
 		}
 
 		sensorL_calibrate_f++;
-		System.out.println(sensorL_calibrate_f);
+		for (int i = 0; i < sensorL_calibrate_f; i++)
+		{
+			Sound.beep();
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		Tools.LCD.drawString("Fase Numero "+sensorL_calibrate_f);
 	}
 	
 	private void calibrarSensorL_F2()
-	{
+	{	System.out.println("ESTOY EN LA ULTIMA FASE");
+		
 		cin.acercar(sonic, distancia_girarSinColisionar);
 		
 		ligth.calibrarBajo();
 		Tools.LCD.drawString("Bajo calibrado");
-		conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+		conect_bl.enviar_faseCalibTerminada(ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
 	}
 	
 	private void calibrarSensorL_F1()
@@ -101,7 +170,7 @@ public class robot
 				Tools.LCD.drawString("Alto calibrado");
 				cin.girar(-90);
 			
-				conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );				
+				conect_bl.enviar_faseCalibTerminada(ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );				
 			break;
 		}
 	}
@@ -118,8 +187,7 @@ public class robot
 			
 			cin.girar(90);
 			
-			conect_bl.enviar_faseCalibTerminada(robotID, ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
-			
+			conect_bl.enviar_faseCalibTerminada( ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
 			
 			break;
 		case 3:
