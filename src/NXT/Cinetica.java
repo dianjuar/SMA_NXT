@@ -49,7 +49,7 @@ public class Cinetica
 	
 	public void girar(float grados)
 	{
-		pilot.rotate(grados);
+		pilot.rotate(grados); 
 	}
 	
 	public void setVelocidad(int vel)

@@ -58,10 +58,11 @@ public class robot
 				else if(encabezado.
 						equalsIgnoreCase(Encabezado_MensajesNXT.Movimiento) )
 				{
-					int mirada = Integer.valueOf( cuerpo.substring(0,1) );
-					float distancia = Integer.valueOf( cuerpo.substring(1) );
+					int grados = Integer.valueOf( cuerpo.substring(0,3) );
+					float distancia = Integer.valueOf( cuerpo.substring(3) );
 					
-					avanzar(mirada, distancia);
+					cin.girar(grados);
+					cin.avanzar(distancia);
 				}
 			}
 		};
@@ -71,44 +72,6 @@ public class robot
 		cin = new Cinetica();
 	}
 	
-	private void avanzar( int mirada, float distancia )
-	{
-		
-	}
-	
-	private void girar(int miradaNueva)
-	{
-		if( mirada >= este && mirada <= suroeste)
-		{
-			
-		}
-		else
-			switch ( mirada)
-			{
-				case noreste:
-					
-					if( miradaNueva == oeste || miradaNueva == noreste )
-					{
-						
-					}
-					else
-					{
-						
-					}
-					
-				break;
-					
-				case norte:
-				break;
-					
-				case noroeste:
-				break;
-					
-				case oeste:
-				break;
-			}
-	}
-
 	private void calibrarSensorL()
 	{
 		switch (sensorL_calibrate_f) {
