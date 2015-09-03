@@ -1,5 +1,6 @@
 package NXT;
 
+import lejos.nxt.Button;
 import lejos.nxt.Sound;
 import NXT.Sensors.Ligth;
 import NXT.Sensors.Sonic;
@@ -63,6 +64,20 @@ public class robot
 					
 					cin.girar(grados);
 					cin.avanzar(distancia);
+				}
+				else if(encabezado
+						.equalsIgnoreCase(Encabezado_MensajesNXT.MovimientoSIMPLE))
+				{
+					if(cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_norte) )
+						cin.avanzar();
+					else if(cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_sur))
+						cin.atras();
+					else if (cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_este))
+						cin.girarDer();
+					else if (cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_oeste))
+						cin.girarIzq();
+					else if (cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_PARAR))
+						cin.stop();
 				}
 			}
 		};

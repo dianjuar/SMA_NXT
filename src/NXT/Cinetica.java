@@ -11,6 +11,9 @@ public class Cinetica
 	private DifferentialPilot pilot;
 	private int velocidad = 10;
 	
+	private int velocidadMov = 700;
+	private int velocidadGiro = 500;
+	
 	public Cinetica()
 	{
 		pilot = new DifferentialPilot(5.5f, 11.35f, Motor.B, Motor.A);
@@ -58,6 +61,48 @@ public class Cinetica
 		
 		pilot.setTravelSpeed(velocidad);
 		pilot.setRotateSpeed(velocidad*2);
+	}
+	
+	private void setVelMov()
+	{
+		Motor.A.setSpeed(velocidadMov);
+		Motor.B.setSpeed(velocidadMov);
+	}
+	
+	private void setVelGiro()
+	{
+		Motor.A.setSpeed(velocidadGiro);
+		Motor.B.setSpeed(velocidadGiro);
+	}
+	
+	public void avanzar()
+	{
+		setVelMov();
+		Motor.A.forward();
+		Motor.B.forward();
+	}
+	
+	public void girarIzq()
+	{
+		setVelGiro();
+		Motor.A.forward();
+		Motor.B.backward();
+		setVelMov();
+	}
+	
+	public void girarDer()
+	{
+		setVelGiro();
+		Motor.B.forward();
+		Motor.A.backward();
+		setVelMov();
+	}
+	
+	public void atras()
+	{
+		setVelMov();
+		Motor.A.backward();
+		Motor.B.backward();
 	}
 
 }
