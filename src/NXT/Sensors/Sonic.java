@@ -1,16 +1,13 @@
 package NXT.Sensors;
 
 import NXT.Ports;
-import NXT.robot;
-import lejos.nxt.Button;
-import lejos.nxt.LCD;
 import lejos.nxt.UltrasonicSensor;
 
 public class Sonic extends Thread {
 	private UltrasonicSensor us;
 	private int distancia;
 
-	private boolean isActivo;
+	private static boolean isActivo;
 
 	public Sonic() {
 		isActivo = true;
@@ -21,7 +18,7 @@ public class Sonic extends Thread {
 		start();
 	}
 
-	public void pararHilo() {
+	public static void pararHilo() {
 		isActivo = false;
 	}
 
@@ -32,7 +29,7 @@ public class Sonic extends Thread {
 	public void run() {
 		
 		
-		while (Button.readButtons() != Button.ID_ESCAPE) {
+		while (isActivo) {
 			distancia = us.getDistance();
 			
 			

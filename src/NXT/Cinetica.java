@@ -1,9 +1,7 @@
 package NXT;
 
 import NXT.Sensors.Sonic;
-import lejos.nxt.Button;
 import lejos.nxt.Motor;
-import lejos.nxt.Settings;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Cinetica

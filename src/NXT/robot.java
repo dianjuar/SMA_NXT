@@ -1,6 +1,5 @@
 package NXT;
 
-import lejos.nxt.Button;
 import lejos.nxt.Sound;
 import NXT.Sensors.Ligth;
 import NXT.Sensors.Sonic;
