@@ -1,6 +1,6 @@
 package NXT.conexion;
 
-public class Encabezado_MensajesNXT {
+public class Encabezado_MensajesNXT { //TODOS los mensajes de encabezado DEBEN ser de 3 letras
 	public static final String Separador = "->";
             public static final String Separador2 = "-";
                 
@@ -11,6 +11,7 @@ public class Encabezado_MensajesNXT {
 	public static final String RobotID = "IDR";
 
 	public static final String Movimiento = "MOV";
+	public static final String MovimientoSIMPLE = "MOS";
             public static final String Mov_norte = "0";
             public static final String Mov_noreste = "1";
             public static final String Mov_este = "2";
@@ -19,6 +20,7 @@ public class Encabezado_MensajesNXT {
             public static final String Mov_suroeste = "5";
             public static final String Mov_oeste = "6";
             public static final String Mov_noroeste = "7";
+            public static final String Mov_PARAR = "8";
 
 	public static final String Cerrar = "close";
 

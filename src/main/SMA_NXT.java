@@ -9,9 +9,9 @@ public class SMA_NXT {
 	{
 		robot yo = new robot();
 
-		Button.waitForPress();
+		//Button.waitForPress();
 
-		yo.cerrarConexionBluethoot();
+		//yo.cerrarConexionBluethoot();
 
 	}
 
