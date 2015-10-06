@@ -11,6 +11,7 @@ public class Encabezado_MensajesNXT { //TODOS los mensajes de encabezado DEBEN s
 	public static final String RobotID = "IDR";
 
 	public static final String Movimiento = "MOV";
+	public static final String CorreccionDeTrayectoria = "COR";
 	public static final String MovimientoSIMPLE = "MOS";
             public static final String Mov_norte = "0";
             public static final String Mov_noreste = "1";

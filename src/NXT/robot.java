@@ -40,6 +40,7 @@ public class robot
 
 		conect_bl = new Bluethoot_conector() {
 			@Override
+			//Todos los grados y distancias tendrán el siguiente formato +###.##
 			public void analizadorDeSMS_BT(String sms) {
 				String encabezado = sms.substring(0, 3);
 				String cuerpo = sms.substring(3);
@@ -58,8 +59,8 @@ public class robot
 				else if(encabezado.
 						equalsIgnoreCase(Encabezado_MensajesNXT.Movimiento) )
 				{
-					int grados = Integer.valueOf( cuerpo.substring(0,3) );
-					float distancia = Integer.valueOf( cuerpo.substring(3) );
+					float grados = Float.valueOf( cuerpo.substring(0,7) );
+					float distancia = Float.valueOf( cuerpo.substring(7) );
 					
 					cin.girar(grados);
 					cin.avanzar(distancia);
@@ -77,6 +78,17 @@ public class robot
 						cin.girarIzq();
 					else if (cuerpo.equalsIgnoreCase( Encabezado_MensajesNXT.Mov_PARAR))
 						cin.stop();
+				}
+				else if( encabezado
+						.equalsIgnoreCase( Encabezado_MensajesNXT.CorreccionDeTrayectoria ) )
+				{
+					float teta = Float.valueOf( cuerpo.substring(0,7) );
+					float distanciaDesface = Float.valueOf( cuerpo.substring(7,14) );
+					float tetaDesface = Float.valueOf( cuerpo.substring(14) );
+					
+					cin.girar(teta);
+					cin.avanzar(distanciaDesface);
+					cin.girar(tetaDesface);
 				}
 			}
 		};
