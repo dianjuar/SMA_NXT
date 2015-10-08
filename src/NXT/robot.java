@@ -45,6 +45,8 @@ public class robot
 				String encabezado = sms.substring(0, 3);
 				String cuerpo = sms.substring(3);
 				
+				Tools.LCD.drawString(encabezado,6);
+				
 				if (encabezado.
 						equalsIgnoreCase(Encabezado_MensajesNXT.RobotID)) 
 				{
