@@ -66,6 +66,8 @@ public class robot
 					
 					cin.girar(grados);
 					cin.avanzar(distancia);
+					
+					conect_bl.enviar_MovTerminado();
 				}
 				else if(encabezado
 						.equalsIgnoreCase(Encabezado_MensajesNXT.MovimientoSIMPLE))
@@ -91,6 +93,8 @@ public class robot
 					cin.girar(teta);
 					cin.avanzar(distanciaDesface);
 					cin.girar(tetaDesface);
+					
+					conect_bl.enviar_CorTerminado();
 				}
 			}
 		};

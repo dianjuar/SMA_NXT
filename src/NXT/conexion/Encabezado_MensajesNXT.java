@@ -23,6 +23,9 @@ public class Encabezado_MensajesNXT { //TODOS los mensajes de encabezado DEBEN s
             public static final String Mov_noroeste = "7";
             public static final String Mov_PARAR = "8";
 
+	public static final String MovimientoTERMINADO = "EMOV";
+	public static final String CorreccionTERMINADO = "ECOR";
+            
 	public static final String Cerrar = "close";
 
 	public static final String Calibrar_SensorOptico = "CAL";

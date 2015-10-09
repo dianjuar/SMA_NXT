@@ -64,6 +64,16 @@ public abstract class Bluethoot_conector
 		}
 	}
 	
+	public void enviar_MovTerminado()
+	{	
+		bt_env.enviar( Encabezado_MensajesNXT.MovimientoTERMINADO );
+	}
+	
+	public void enviar_CorTerminado()
+	{	
+		bt_env.enviar( Encabezado_MensajesNXT.CorreccionTERMINADO );
+	}
+	
 	public void enviar_faseCalibTerminada( boolean alto, boolean bajo)
 	{
 		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico + Encabezado_MensajesNXT.Separador+
