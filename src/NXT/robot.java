@@ -96,6 +96,10 @@ public class robot
 					
 					conect_bl.enviar_CorTerminado();
 				}
+				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad ))
+				{
+					cin.setVelocidad( Integer.valueOf(cuerpo) );
+				}
 			}
 		};
 		
