@@ -98,7 +98,7 @@ public class robot
 				}
 				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad ))
 				{
-					cin.setVelocidad( Integer.valueOf(cuerpo) );
+					cin.setVelocidad( Float.valueOf(cuerpo) );
 				}
 			}
 		};

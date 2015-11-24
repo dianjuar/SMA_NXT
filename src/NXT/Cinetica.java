@@ -7,7 +7,7 @@ import lejos.robotics.navigation.DifferentialPilot;
 public class Cinetica
 {
 	private DifferentialPilot pilot;
-	private int velocidad = 10;
+	private float velocidad = 10;
 	
 	private int velocidadMov = 700;
 	private int velocidadGiro = 500;
@@ -53,12 +53,12 @@ public class Cinetica
 		pilot.rotate(grados); 
 	}
 	
-	public void setVelocidad(int vel)
+	public void setVelocidad(float vel)
 	{
 		this.velocidad = vel;
 		
 		pilot.setTravelSpeed(velocidad);
-		pilot.setRotateSpeed(velocidad*2);
+		pilot.setRotateSpeed(velocidad*6);
 	}
 	
 	private void setVelMov()
