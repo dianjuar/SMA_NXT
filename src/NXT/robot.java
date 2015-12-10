@@ -1,7 +1,8 @@
 package NXT;
 
+import lejos.nxt.LightSensor;
 import lejos.nxt.Sound;
-import NXT.Sensors.Ligth;
+import NXT.Sensors.Light;
 import NXT.Sensors.Sonic;
 import NXT.conexion.Bluethoot_conector;
 import NXT.conexion.Encabezado_MensajesNXT;
@@ -28,7 +29,7 @@ public class robot
 	
 	private Cinetica cin;
 	private Sonic sonic;
-	private Ligth ligth;
+	private Light ligth;
 
 	public robot() 
 	{
@@ -57,6 +58,8 @@ public class robot
 						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico))
 				{
 					calibrarSensorL();
+					//guardar calibracion
+					Tools.FileManager.WRITEparameters_LigthSensor( ligth.lightSensor );
 				}
 				else if(encabezado.
 						equalsIgnoreCase(Encabezado_MensajesNXT.Movimiento) )
@@ -86,15 +89,46 @@ public class robot
 				else if( encabezado
 						.equalsIgnoreCase( Encabezado_MensajesNXT.CorreccionDeTrayectoria ) )
 				{
-					float teta = Float.valueOf( cuerpo.substring(0,7) );
-					float distanciaDesface = Float.valueOf( cuerpo.substring(7,14) );
-					float tetaDesface = Float.valueOf( cuerpo.substring(14) );
+					boolean hasErrors = false;
 					
-					cin.girar(teta);
-					cin.avanzar(distanciaDesface);
-					cin.girar(tetaDesface);
+					//si no está calibrado
+					if( !ligth.isCalibrated() )
+					{
+						//si existe un archivo de calbración y se lee con exito
+						if( Tools.FileManager.READparameters_LigthSensor( ligth.lightSensor ) == true )
+						{
+							//settear vairabes responsables de avisar si están calibrados los sensores
+							ligth.set_calibradoALTO(true);
+							ligth.set_calibradoBAJO(true);
+						}
+						else
+						{
+							//error!!! no se encuentra el archivo de calibración y no se a calibrado;
+							hasErrors = true;
+							
+							for (int i = 0; i < 5; i++)
+							{
+								Sound.beepSequence();
+							}
+							
+							conect_bl.enviar_CorTerminado();
+						}
+					}
 					
-					conect_bl.enviar_CorTerminado();
+					if(!hasErrors)
+					{
+						float teta = Float.valueOf( cuerpo.substring(0,7) );
+						float distanciaDesface = Float.valueOf( cuerpo.substring(7,14) );
+						float tetaDesface = Float.valueOf( cuerpo.substring(14) );
+						
+						cin.girar(teta);
+						cin.avanzar(distanciaDesface);
+						cin.girar(tetaDesface);
+						
+						conect_bl.enviar_CorTerminado();
+					}
+					
+					
 				}
 				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad ))
 				{
@@ -104,7 +138,7 @@ public class robot
 		};
 		
 		sonic = new Sonic();
-		ligth = new Ligth();
+		ligth = new Light();
 		cin = new Cinetica();
 	}
 	

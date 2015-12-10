@@ -3,36 +3,51 @@ package NXT.Sensors;
 import NXT.Ports;
 import lejos.nxt.LightSensor;
 
-public class Ligth
+public class Light
 {
-	LightSensor light;
+	public LightSensor lightSensor;
 	
 	int alto,bajo;
-	boolean calibrado_alto, calibrado_bajo;
+	private boolean calibrado_alto, calibrado_bajo;
 	
-	public Ligth()
+	public Light()
 	{
-		 light = new LightSensor( Ports.Sensor_LigthPort );	
+		lightSensor = new LightSensor( Ports.Sensor_LigthPort );	
 		 calibrado_alto = calibrado_bajo = false ;
+	}
+	
+	public boolean isCalibrated()
+	{
+		return (calibrado_alto==false || calibrado_bajo==false) ? false : true; 
 	}
 	
 	public void calibrarBajo()
 	{
-		light.calibrateLow();
-		bajo = light.getLow();
+		lightSensor.calibrateLow();
+		bajo = lightSensor.getLow();
 		calibrado_bajo = true;
 	}
 	
 	public void calibrarAlto()
 	{
-		light.calibrateHigh();
-		alto = light.getHigh();
+		lightSensor.calibrateHigh();
+		alto = lightSensor.getHigh();
 		calibrado_alto = true;
+	}
+	
+	public void set_calibradoALTO(boolean b)
+	{
+		calibrado_alto = b;
+	}
+	
+	public void set_calibradoBAJO(boolean b)
+	{
+		calibrado_bajo = b;
 	}
 	
 	public int readValue()
 	{
-		return light.readValue();
+		return lightSensor.readValue();
 	}
 	
 	public boolean isObstaculo()
