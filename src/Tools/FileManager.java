@@ -47,7 +47,7 @@ public class FileManager
 		
 	}
 	
-	public static boolean READparameters_LigthSensor( LightSensor l )
+	public static boolean READparameters_LigthSensor( NXT.Sensors.Light l )
 	{
 		try
 		{
@@ -56,8 +56,8 @@ public class FileManager
 			FileInputStream inF = new FileInputStream(data);
 			DataInputStream dataIn = new DataInputStream(inF);
 			
-			l.setLow( dataIn.readInt() );
-			l.setHigh( dataIn.readInt() );
+			l.lightSensor.setLow( dataIn.readInt() );	l.set_calibradoALTO(true);
+			l.lightSensor.setHigh( dataIn.readInt() );	l.set_calibradoBAJO(true);
 			   
 	        inF.close(); // flush the buffer and write the file
 	        

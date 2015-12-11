@@ -8,7 +8,7 @@ public class Sonic extends Thread {
 	public static int distanciaMinimaDeFrente = 6;
 	
 	private UltrasonicSensor us;
-	private int distancia;
+	private static int  distancia;
 
 	private static boolean isActivo;
 
@@ -33,7 +33,7 @@ public class Sonic extends Thread {
 		isActivo = false;
 	}
 
-	public int getDistancia() {
+	public static int getDistancia() {
 		return distancia;
 	}
 

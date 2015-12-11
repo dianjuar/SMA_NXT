@@ -23,21 +23,18 @@ public class Light extends Thread
 		lightSensor = new LightSensor( Ports.Sensor_LigthPort );	
 		calibrado_alto = calibrado_bajo = false;
 		
+		Tools.FileManager.READparameters_LigthSensor( this );
+		
 		start();
 	}
 	
 	public void run()
 	{
 		while(isActivo)
-		{
-			if( s.getDistancia() <= Sonic.getDistanciaMinima() )
-			{
-				lecturaLight = lightSensor.readValue();
-				Tools.LCD.drawLigthValue( lecturaLight );
-			}
-			else
-				Tools.LCD.drawLigthValue( Integer.MAX_VALUE );
-			
+		{			
+			lecturaLight = lightSensor.readValue();
+			Tools.LCD.drawLigthValue( lecturaLight );
+						
 			try 
 			{
 				Thread.sleep(250);

@@ -57,7 +57,10 @@ public class robot
 				else if (encabezado
 						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico))
 				{
+					cin.set_velocidad_calib();//pone el robot en una velocidad ideal para calibrar
 					calibrarSensorL();
+					cin.reestablecerVelocidad();//reestablecer la velocidad que llevaba.
+					
 					//guardar calibracion
 					Tools.FileManager.WRITEparameters_LigthSensor( ligth.lightSensor );
 				}
@@ -88,32 +91,8 @@ public class robot
 				}
 				else if( encabezado
 						.equalsIgnoreCase( Encabezado_MensajesNXT.CorreccionDeTrayectoria ) )
-				{
-					boolean hasErrors = false;
-					
-					//si no está calibrado
-					if( !ligth.isCalibrated() )
-					{
-						//si existe un archivo de calbración y se lee con exito
-						if( Tools.FileManager.READparameters_LigthSensor( ligth.lightSensor ) == true )
-						{
-							//settear vairabes responsables de avisar si están calibrados los sensores
-							ligth.set_calibradoALTO(true);
-							ligth.set_calibradoBAJO(true);
-						}
-						else
-						{
-							//error!!! no se encuentra el archivo de calibración y no se a calibrado;
-							hasErrors = true;
-							
-							for (int i = 0; i < 5; i++)
-								Sound.beepSequence();
-							
-							conect_bl.enviar_CorTerminado();
-						}
-					}
-					
-					if(!hasErrors)
+				{					
+					if(ligth.isCalibrated())
 					{
 						float teta = Float.valueOf( cuerpo.substring(0,7) );
 						float distanciaDesface = Float.valueOf( cuerpo.substring(7,14) );
@@ -125,8 +104,13 @@ public class robot
 						
 						conect_bl.enviar_CorTerminado();
 					}
-					
-					
+					else
+					{
+						for (int i = 0; i < 5; i++)
+							Sound.beepSequence();
+						
+						conect_bl.enviar_CorTerminado();
+					}
 				}
 				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad ))
 				{
@@ -139,7 +123,7 @@ public class robot
 		ligth = new Light( sonic );
 		cin = new Cinetica();
 		
-		Tools.LCD.drawString(" | ", Tools.LCD.posScreen_Separator);
+		Tools.LCD.drawString("|", Tools.LCD.posScreen_Separator);
 	}
 	
 	private void calibrarSensorL()
@@ -174,11 +158,11 @@ public class robot
 	private void calibrarSensorL_F2()
 	{	System.out.println("ESTOY EN LA ULTIMA FASE");
 		
-		cin.acercar(sonic, distancia_girarSinColisionar);
+		cin.colocarRobotEn_Distancia(distancia_girarSinColisionar);
 		
 		ligth.calibrarBajo();
 		Tools.LCD.drawString("Bajo calibrado");
-		conect_bl.enviar_faseCalibTerminada(ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+		conect_bl.enviar_faseCalibTerminada( true, true );
 	}
 	
 	private void calibrarSensorL_F1()
@@ -189,21 +173,13 @@ public class robot
 			break;
 		case 3:
 				cin.girar(90);
-				
-				if( sonic.getDistancia() <= distancia_girarSinColisionar )
-				{
-					cin.alejar(sonic, distancia_girarSinColisionar);
-				}
-				else
-				{
-					cin.acercar(sonic, distancia_girarSinColisionar);
-				}
+				cin.colocarRobotEn_Distancia( distancia_girarSinColisionar);
 				
 				ligth.calibrarAlto();
 				Tools.LCD.drawString("Alto calibrado");
 				cin.girar(-90);
 			
-				conect_bl.enviar_faseCalibTerminada(ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );				
+				conect_bl.enviar_faseCalibTerminada( true, false );				
 			break;
 		}
 	}
@@ -213,14 +189,14 @@ public class robot
 		switch (robotID) {
 		case 1:
 		case 2:
-			cin.acercar(sonic, distancia_girarSinColisionar);
+			cin.colocarRobotEn_Distancia(distancia_girarSinColisionar);
 			
 			ligth.calibrarAlto();
 			Tools.LCD.drawString("Alto calibrado");
 			
 			cin.girar(90);
 			
-			conect_bl.enviar_faseCalibTerminada( ligth.isCalibrado_alto(), ligth.isCalibrado_bajo() );
+			conect_bl.enviar_faseCalibTerminada( true, false );
 			
 			break;
 		case 3:

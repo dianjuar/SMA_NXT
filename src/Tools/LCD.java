@@ -14,7 +14,7 @@ public class LCD
 	
 	public static Point posScreen_Sonic = new Point(0 , SonicPos);
 	public static Point posScreen_Ligth = new Point(6 , LigthPos);
-	public static Point posScreen_Separator = new Point(4, SonicPos);
+	public static Point posScreen_Separator = new Point(5, SonicPos);
 	
 	public static void drawString(String s)
 	{

@@ -2,22 +2,45 @@ package NXT;
 
 import NXT.Sensors.Sonic;
 import lejos.nxt.Motor;
+import lejos.nxt.NXT;
 import lejos.robotics.navigation.DifferentialPilot;
 
 public class Cinetica
 {
 	private DifferentialPilot pilot;
-	private float velocidad = 10;
 	
-	private int velocidadMov = 700;
-	private int velocidadGiro = 500;
+	public static float velocidad = 10;
+	public static float velocidad_calib = 5;
+	
+	private int velocidadMov;
+	private int velocidadGiro;
 	
 	public Cinetica()
-	{
+	{	
+		velocidadMov = 700;
+		velocidadGiro = 500;
+		
 		pilot = new DifferentialPilot(5.5f, 11.35f, Motor.B, Motor.A);
 		
-		pilot.setTravelSpeed(velocidad);
-		pilot.setRotateSpeed(velocidad*5);
+		setVelocidad(velocidad);
+	}
+	
+	public void set_velocidad_calib()
+	{
+		setVelocidad(velocidad_calib, true);
+	}
+	
+	public void reestablecerVelocidad()
+	{
+		setVelocidad(velocidad);
+	}
+
+	public void colocarRobotEn_Distancia(int d)
+	{
+		if( Sonic.getDistancia() <= d )
+			alejar(d);
+		else
+			acercar(d);
 	}
 	
 	public void stop()
@@ -30,20 +53,20 @@ public class Cinetica
 		pilot.travel(distancia);
 	}
 	
-	public void acercar(Sonic sonic, int distancia)
+	public void acercar( int distancia)
 	{
 		pilot.forward();
 		
-		while( sonic.getDistancia() >= distancia ){}
+		while( Sonic.getDistancia() >= distancia ){}
 		
 		stop();
 	}
 	
-	public void alejar(Sonic sonic, int distancia)
+	public void alejar( int distancia)
 	{
 		pilot.backward();
 		
-		while( sonic.getDistancia() <= distancia ){}
+		while( Sonic.getDistancia() <= distancia ){}
 		
 		stop();
 	}
@@ -57,8 +80,17 @@ public class Cinetica
 	{
 		this.velocidad = vel;
 		
-		pilot.setTravelSpeed(velocidad);
-		pilot.setRotateSpeed(velocidad*6);
+		pilot.setTravelSpeed(vel);
+		pilot.setRotateSpeed(vel*6);
+	}
+	
+	public void setVelocidad(float vel, boolean temporal)
+	{
+		if(!temporal)
+			this.velocidad = vel;
+		
+		pilot.setTravelSpeed(vel);
+		pilot.setRotateSpeed(vel*6);
 	}
 	
 	private void setVelMov()
