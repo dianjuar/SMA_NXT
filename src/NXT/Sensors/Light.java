@@ -3,18 +3,57 @@ package NXT.Sensors;
 import NXT.Ports;
 import lejos.nxt.LightSensor;
 
-public class Light
+public class Light extends Thread
 {
 	public LightSensor lightSensor;
+	public static int lecturaLight;
+	
+	private static boolean isActivo;
+	private NXT.Sensors.Sonic s;
 	
 	int alto,bajo;
 	private boolean calibrado_alto, calibrado_bajo;
 	
-	public Light()
+	public Light(NXT.Sensors.Sonic s)
 	{
+		this.s = s;
+		
+		isActivo = true;
+		
 		lightSensor = new LightSensor( Ports.Sensor_LigthPort );	
-		 calibrado_alto = calibrado_bajo = false ;
+		calibrado_alto = calibrado_bajo = false;
+		
+		start();
 	}
+	
+	public void run()
+	{
+		while(isActivo)
+		{
+			if( s.getDistancia() <= Sonic.getDistanciaMinima() )
+			{
+				lecturaLight = lightSensor.readValue();
+				Tools.LCD.drawLigthValue( lecturaLight );
+			}
+			else
+				Tools.LCD.drawLigthValue( Integer.MAX_VALUE );
+			
+			try 
+			{
+				Thread.sleep(250);
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void pararHilo() {
+		isActivo = false;
+	}
+
 	
 	public boolean isCalibrated()
 	{

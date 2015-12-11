@@ -3,6 +3,7 @@ package NXT.conexion;
 import javax.microedition.io.Connection;
 
 import NXT.robot;
+import NXT.Sensors.Light;
 import NXT.Sensors.Sonic;
 import lejos.nxt.LCD;
 import lejos.nxt.comm.NXTConnection;
@@ -61,6 +62,7 @@ public abstract class Bluethoot_conector
 			
 			//es necesario detener todos los hilos para que el robot se apague al momento de recibit el mensaje de borrar
 			Sonic.pararHilo();
+			Light.pararHilo();
 		}
 	}
 	

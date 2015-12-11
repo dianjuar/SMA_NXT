@@ -107,9 +107,7 @@ public class robot
 							hasErrors = true;
 							
 							for (int i = 0; i < 5; i++)
-							{
 								Sound.beepSequence();
-							}
 							
 							conect_bl.enviar_CorTerminado();
 						}
@@ -138,8 +136,10 @@ public class robot
 		};
 		
 		sonic = new Sonic();
-		ligth = new Light();
+		ligth = new Light( sonic );
 		cin = new Cinetica();
+		
+		Tools.LCD.drawString(" | ", Tools.LCD.posScreen_Separator);
 	}
 	
 	private void calibrarSensorL()
