@@ -45,6 +45,11 @@ public abstract class Bluethoot_conector
 		};
 	}
 	
+	public boolean isConnected()
+	{
+		return isConnected;
+	}
+	
 	public void cerrarConexion( boolean ImClosing )
 	{
 		if( isConnected )
@@ -61,8 +66,7 @@ public abstract class Bluethoot_conector
 			isConnected = false;
 			
 			//es necesario detener todos los hilos para que el robot se apague al momento de recibit el mensaje de borrar
-			Sonic.pararHilo();
-			Light.pararHilo();
+			robot.detenerHilos();
 		}
 	}
 	
@@ -80,6 +84,15 @@ public abstract class Bluethoot_conector
 	{
 		bt_env.enviar( Encabezado_MensajesNXT.Calibrar_SensorOptico + Encabezado_MensajesNXT.Separador+
 			  (alto?1:0) + (bajo?1:0));
+	}
+	
+	public void enviar_Sensores(NXT.Sensors.Sonic s, NXT.Sensors.Light l)
+	{
+		String lum = String.valueOf( l.getLuminocidad() );
+		
+		//siempre se envía de primero el Sonico y luego el lumínico
+		bt_env.enviar( Encabezado_MensajesNXT.Sensor + Encabezado_MensajesNXT.Separador + 
+				s.getDistancia() + Encabezado_MensajesNXT.Separador2  + lum );
 	}
 	
 	public abstract void analizadorDeSMS_BT(String sms);

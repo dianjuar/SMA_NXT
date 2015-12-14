@@ -8,6 +8,8 @@ public class LCD
 {
 	private static String vacio="                           ";
 	private static String eraserWord = "     "; //length of 5because lengthWordSensorOnScreen = 5
+	private static int LinesPrinted = 1;
+	private static int imprimibleLines = 5;
 	
 	public static int LigthPos = 7;
 	public static int SonicPos = 7;
@@ -18,7 +20,12 @@ public class LCD
 	
 	public static void drawString(String s)
 	{
-		lejos.nxt.LCD.drawString(s,0, robot.LCD_posPrint++ );
+		lejos.nxt.LCD.drawString(vacio,0, robot.LCD_posPrint );
+		lejos.nxt.LCD.drawString(LinesPrinted++ +"."+s,0, robot.LCD_posPrint++ );
+		
+		if(robot.LCD_posPrint > imprimibleLines)
+			robot.LCD_posPrint = 0;
+			
 	}
 	
 	public static void drawString(String s, int n)

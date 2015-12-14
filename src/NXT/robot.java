@@ -1,7 +1,9 @@
 package NXT;
 
 import lejos.nxt.LightSensor;
+import lejos.nxt.ListenerCaller;
 import lejos.nxt.Sound;
+import lejos.nxt.comm.BTConnection;
 import NXT.Sensors.Light;
 import NXT.Sensors.Sonic;
 import NXT.conexion.Bluethoot_conector;
@@ -28,8 +30,9 @@ public class robot
 	public static final int distancia_girarSinColisionar = 10;
 	
 	private Cinetica cin;
-	private Sonic sonic;
-	private Light ligth;
+	private static Sonic sonic;
+	private static Light ligth;
+	private static envioInformacion envInf;
 
 	public robot() 
 	{
@@ -120,8 +123,9 @@ public class robot
 		};
 		
 		sonic = new Sonic();
-		ligth = new Light( sonic );
+		ligth = new Light( );
 		cin = new Cinetica();
+		envInf = new envioInformacion(conect_bl, ligth, sonic);
 		
 		Tools.LCD.drawString("|", Tools.LCD.posScreen_Separator);
 	}
@@ -208,7 +212,59 @@ public class robot
 	public void cerrarConexionBluethoot() 
 	{
 		conect_bl.cerrarConexion(true);
+	}
+	
+	public static void detenerHilos()
+	{
 		sonic.pararHilo();
+		ligth.pararHilo();
+		envInf.pararHilo();
 	}
 
+}
+
+class envioInformacion extends Thread
+{
+	private Bluethoot_conector conexion_bt;
+	private NXT.Sensors.Light l;
+	private NXT.Sensors.Sonic s;
+	
+	private boolean isActivo;
+	
+	public envioInformacion( Bluethoot_conector conexion_bt, NXT.Sensors.Light l, NXT.Sensors.Sonic s )
+	{
+		isActivo = true;
+		
+		this.conexion_bt = conexion_bt;
+		this.l = l;
+		this.s = s;
+		
+		start();
+	}
+	
+	public void pararHilo()
+	{
+		isActivo = false;
+	}
+	
+	public void run()
+	{
+		while(isActivo)
+		{
+			if( conexion_bt.isConnected() )
+				//siempre se envía de primero el Sonico y luego el lumínico
+				conexion_bt.enviar_Sensores(s, l);
+			
+			try 
+			{
+				Thread.sleep(250);
+			} 
+			catch (InterruptedException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

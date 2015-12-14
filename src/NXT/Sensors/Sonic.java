@@ -1,6 +1,7 @@
 package NXT.Sensors;
 
 import NXT.Ports;
+import Tools.SensorsControl;
 import lejos.nxt.UltrasonicSensor;
 
 public class Sonic extends Thread {
@@ -9,6 +10,7 @@ public class Sonic extends Thread {
 	
 	private UltrasonicSensor us;
 	private static int  distancia;
+	private Tools.SensorsControl establicidad_lectura_sensor;
 
 	private static boolean isActivo;
 
@@ -18,6 +20,8 @@ public class Sonic extends Thread {
 
 		us = new UltrasonicSensor(Ports.Sensor_SonicPort);
 		us.continuous();
+		
+		establicidad_lectura_sensor = new SensorsControl(5, 0);
 
 		start();
 	}
@@ -42,11 +46,10 @@ public class Sonic extends Thread {
 		
 		while (isActivo) 
 		{
-			distancia = us.getDistance();
-				
+			distancia = establicidad_lectura_sensor.add(us.getDistance());
 			Tools.LCD.drawSonicValue(distancia);
 
-			try 
+			/*try 
 			{
 				Thread.sleep(250);
 			} 
@@ -54,7 +57,7 @@ public class Sonic extends Thread {
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 
 	}

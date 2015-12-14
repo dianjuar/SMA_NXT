@@ -1,6 +1,7 @@
 package NXT.Sensors;
 
 import NXT.Ports;
+import Tools.SensorsControl;
 import lejos.nxt.LightSensor;
 
 public class Light extends Thread
@@ -9,21 +10,20 @@ public class Light extends Thread
 	public static int lecturaLight;
 	
 	private static boolean isActivo;
-	private NXT.Sensors.Sonic s;
+	private Tools.SensorsControl establicidad_lectura_sensor;
 	
 	int alto,bajo;
 	private boolean calibrado_alto, calibrado_bajo;
 	
-	public Light(NXT.Sensors.Sonic s)
-	{
-		this.s = s;
-		
+	public Light()
+	{		
 		isActivo = true;
 		
 		lightSensor = new LightSensor( Ports.Sensor_LigthPort );	
 		calibrado_alto = calibrado_bajo = false;
 		
 		Tools.FileManager.READparameters_LigthSensor( this );
+		establicidad_lectura_sensor = new SensorsControl(5, 0);
 		
 		start();
 	}
@@ -32,10 +32,10 @@ public class Light extends Thread
 	{
 		while(isActivo)
 		{			
-			lecturaLight = lightSensor.readValue();
+			lecturaLight =  establicidad_lectura_sensor.add(lightSensor.readValue());
 			Tools.LCD.drawLigthValue( lecturaLight );
 						
-			try 
+			/*try 
 			{
 				Thread.sleep(250);
 			} 
@@ -43,7 +43,7 @@ public class Light extends Thread
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			}*/
 		}
 	}
 	
@@ -109,6 +109,11 @@ public class Light extends Thread
 	public boolean isAgenteLateral()
 	{
 		return false;
+	}
+
+	public int getLuminocidad() 
+	{
+		return lecturaLight;
 	}
 	
 	
