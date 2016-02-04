@@ -30,8 +30,8 @@ public class robot
 	public static final int distancia_girarSinColisionar = 10;
 	
 	private Cinetica cin;
-	private static Sonic sonic;
-	private static Light ligth;
+	//private static Sonic sonic;
+	//private static Light ligth;
 	private static envioInformacion envInf;
 
 	public robot() 
@@ -57,7 +57,7 @@ public class robot
 					robotID = Integer.valueOf(cuerpo);
 					Tools.LCD.drawString("ID : " + robotID);
 				} 
-				else if (encabezado
+				/*else if (encabezado
 						.equalsIgnoreCase(Encabezado_MensajesNXT.Calibrar_SensorOptico))
 				{
 					cin.set_velocidad_calib();//pone el robot en una velocidad ideal para calibrar
@@ -66,7 +66,7 @@ public class robot
 					
 					//guardar calibracion
 					Tools.FileManager.WRITEparameters_LigthSensor( ligth.lightSensor );
-				}
+				}*/
 				else if(encabezado.
 						equalsIgnoreCase(Encabezado_MensajesNXT.Movimiento) )
 				{
@@ -95,8 +95,8 @@ public class robot
 				else if( encabezado
 						.equalsIgnoreCase( Encabezado_MensajesNXT.CorreccionDeTrayectoria ) )
 				{					
-					if(ligth.isCalibrated())
-					{
+					//if(ligth.isCalibrated())
+					//{
 						float teta = Float.valueOf( cuerpo.substring(0,7) );
 						float distanciaDesface = Float.valueOf( cuerpo.substring(7,14) );
 						float tetaDesface = Float.valueOf( cuerpo.substring(14) );
@@ -106,31 +106,38 @@ public class robot
 						cin.girar(tetaDesface);
 						
 						conect_bl.enviar_CorTerminado();
-					}
-					else
+					//}
+					/*else
 					{
 						for (int i = 0; i < 5; i++)
 							Sound.beepSequence();
 						
 						conect_bl.enviar_CorTerminado();
-					}
+					}*/
 				}
 				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad ))
 				{
 					cin.setVelocidad( Float.valueOf(cuerpo) );
 				}
+				else if(encabezado.equalsIgnoreCase( Encabezado_MensajesNXT.SetVelocidad_izq_der ))
+				{
+					float VL = Float.valueOf( cuerpo.substring(0,7) );
+					float VR = Float.valueOf( cuerpo.substring(7) );
+					
+					cin.setVelocidad(VL, VR);
+				}
 			}
 		};
 		
-		sonic = new Sonic();
-		ligth = new Light( );
+		//sonic = new Sonic();
+		//ligth = new Light( );
 		cin = new Cinetica();
-		envInf = new envioInformacion(conect_bl, ligth, sonic);
+		//envInf = new envioInformacion(conect_bl, ligth, sonic);
 		
 		Tools.LCD.drawString("|", Tools.LCD.posScreen_Separator);
 	}
 	
-	private void calibrarSensorL()
+	/*private void calibrarSensorL()
 	{
 		switch (sensorL_calibrate_f) {
 		case 0:
@@ -157,9 +164,9 @@ public class robot
 			
 		}
 		Tools.LCD.drawString("Fase Numero "+sensorL_calibrate_f);
-	}
+	}*/
 	
-	private void calibrarSensorL_F2()
+	/*private void calibrarSensorL_F2()
 	{	System.out.println("ESTOY EN LA ULTIMA FASE");
 		
 		cin.colocarRobotEn_Distancia(distancia_girarSinColisionar);
@@ -167,9 +174,9 @@ public class robot
 		ligth.calibrarBajo();
 		Tools.LCD.drawString("Bajo calibrado");
 		conect_bl.enviar_faseCalibTerminada( true, true );
-	}
+	}*/
 	
-	private void calibrarSensorL_F1()
+	/*private void calibrarSensorL_F1()
 	{
 		switch (robotID) {
 		case 1:
@@ -208,7 +215,7 @@ public class robot
 			break;
 		}
 	}
-
+*/
 	public void cerrarConexionBluethoot() 
 	{
 		conect_bl.cerrarConexion(true);
@@ -216,9 +223,9 @@ public class robot
 	
 	public static void detenerHilos()
 	{
-		sonic.pararHilo();
+		/*sonic.pararHilo();
 		ligth.pararHilo();
-		envInf.pararHilo();
+		envInf.pararHilo();*/
 	}
 
 }

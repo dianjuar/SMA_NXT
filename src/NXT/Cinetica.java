@@ -17,12 +17,28 @@ public class Cinetica
 	
 	public Cinetica()
 	{	
-		velocidadMov = 700;
-		velocidadGiro = 500;
+		velocidadMov = 300;
+		velocidadGiro = 100;
 		
 		pilot = new DifferentialPilot(5.5f, 11.35f, Motor.B, Motor.A);
 		
 		setVelocidad(velocidad);
+	}
+	
+	public void setVelocidad(float VL, float VR)
+	{
+		Motor.B.setSpeed(VL);
+		Motor.A.setSpeed(VR);
+		
+		if(VL > 0 )
+			Motor.A.forward();
+		else
+			Motor.A.backward();
+		
+		if(VR > 0 )
+			Motor.B.forward();
+		else
+			Motor.B.backward();
 	}
 	
 	public void set_velocidad_calib()

@@ -30,5 +30,6 @@ public class Encabezado_MensajesNXT { //TODOS los mensajes de encabezado DEBEN s
 
 	public static final String Calibrar_SensorOptico = "CAL";
 	public static final String SetVelocidad = "SVE";
+	public static final String SetVelocidad_izq_der = "VIR";
 
 }
