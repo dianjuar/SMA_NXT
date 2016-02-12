@@ -27,8 +27,8 @@ public class Cinetica
 	
 	public void setVelocidad(float VL, float VR)
 	{
-		Motor.B.setSpeed(VL);
-		Motor.A.setSpeed(VR);
+		Motor.B.setSpeed(  Math.abs(VL)  );
+		Motor.A.setSpeed(  Math.abs(VR)  );
 		
 		if(VL > 0 )
 			Motor.A.forward();
